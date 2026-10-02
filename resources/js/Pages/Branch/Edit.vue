@@ -1,21 +1,21 @@
 <template>
     <div>
         <div class="flex items-center mb-4">
-            <h3 class="text-xl mr-4">Add branch</h3>
+            <h3 class="text-xl mr-4">Edit branch</h3>
         </div>
         <div>
             <div class="mb-4" v-if="sections.length > 0">
-                <select @change="getBranches" class="border-gray-300 p-2 w-1/4" v-model="section_id" >
+                <select @change="getBranches" class="border-gray-300 p-2 w-1/4" v-model="section_id">
                     <option value="null" selected disabled>Choose section</option>
                     <option v-for="section in sections" :value="section.id">{{ section.title }}</option>
                 </select>
                 <div v-if="this.$page.props.errors.section_id" class="text-sm text-red-600">
-                    {{ this.$page.props.errors.section_id}}
+                    {{ this.$page.props.errors.section_id }}
                 </div>
             </div>
 
             <div class="mb-4" v-if="branches.length > 0">
-                <select class="border-gray-300 p-2 w-1/4" v-model="parent_id" >
+                <select class="border-gray-300 p-2 w-1/4" v-model="parent_id">
                     <option value="null" selected disabled>Choose branch</option>
                     <option v-for="branch in branches" :value="branch.id">{{ branch.title }}</option>
                 </select>
@@ -23,11 +23,11 @@
             <div class="mb-4">
                 <input type="text" placeholder="Title" v-model="title" class="border-gray-300 p-2 w-1/4">
                 <div v-if="this.$page.props.errors.title" class="text-sm text-red-600">
-                    {{ this.$page.props.errors.title}}
+                    {{ this.$page.props.errors.title }}
                 </div>
             </div>
             <div>
-                <a class="block w-1/4 py-2 bg-sky-500 border border-sky-600 text-white text-center" @click.prevent="store" href="#">Add</a>
+                <a class="block w-1/4 py-2 bg-sky-500 border border-sky-600 text-white text-center" @click.prevent="update" href="#">Save</a>
             </div>
         </div>
     </div>
@@ -36,15 +36,21 @@
 <script>
 import MainLayout from "@/Layouts/MainLayout.vue";
 import {Link} from "@inertiajs/vue3";
+
 export default {
-    name: "Create",
+    name: "Edit",
     props: [
-        'sections'
+        'sections',
+        'branch'
     ],
+    mounted() {
+        this.getBranches()
+        this.parent_id = this.branch.parent_id
+    },
     data() {
         return {
-            title: '',
-            section_id: null,
+            title: this.branch.title,
+            section_id: this.branch.section_id,
             parent_id: null,
             branches: [],
         }
@@ -53,8 +59,8 @@ export default {
         Link
     },
     methods: {
-        store() {
-            this.$inertia.post('/branches', {
+        update() {
+            this.$inertia.patch(`/branches/${this.branch.id}`, {
                 section_id: this.section_id,
                 parent_id: this.parent_id,
                 title: this.title
@@ -62,7 +68,7 @@ export default {
         },
         getBranches() {
             this.parent_id = null
-            axios.get(`/sections/${this.section_id}/branches`)
+            axios.get(`/sections/${this.section_id}/branches_except/${this.branch.id}`)
                 .then(response => {
                     this.branches = response.data;
                 })
