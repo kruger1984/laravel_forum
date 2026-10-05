@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Branch;
+namespace App\Http\Requests\Message;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,9 +23,9 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'      => 'required|string',
-            'section_id' => 'required|integer|exists:sections,id',
-            'parent_id'  => 'nullable|integer|exists:branches,id',
+            'content'  => 'required|string',
+            'theme_id' => 'required|integer|exists:themes,id',
+
         ];
     }
 }

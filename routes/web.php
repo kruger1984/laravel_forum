@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,12 +28,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('sections', SectionController::class);
     Route::resource('branches', BranchController::class);
     Route::resource('themes', ThemeController::class);
+    Route::resource('messages', MessageController::class);
 
     Route::get('sections/{section}/branches', [SectionController::class, 'branchIndex']);
     Route::get('sections/{section}/branches_except/{branch}', [SectionController::class, 'branchIndexExcept']);
 
     Route::get('branches/{branch}/themes/create', [BranchController::class, 'themeCreate'])
     ->name('branches.themes.create');
+
+    Route::get('/users/personal', [UserController::class, 'personal'])->name('users.personal');
+    Route::patch('/users/personal', [UserController::class, 'update']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -29,4 +29,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getAvatarUrlAttribute()
+    {
+        return url('storage/' . $this->avatar);
+    }
 }
