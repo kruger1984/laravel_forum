@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Complaint\StoreRequest as ComplaintStoreRequest;
 use App\Http\Requests\Message\StoreRequest;
 use App\Http\Requests\Message\UpdateRequest;
 use App\Http\Resources\Message\MessageResource;
+use App\Models\Image;
 use App\Models\Message;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MessageController extends Controller
 {
@@ -31,9 +35,45 @@ class MessageController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $data = $request->validated();
+        $data            = $request->validated();
         $data['user_id'] = auth()->id();
+
+        $ids = Str::of($data['content'])
+                  ->matchAll('/@[\d]+/')
+                  ->unique()
+                  ->transform(function ($id) {
+                      return Str::of($id)->replaceMatches('/@/', '')->value();
+                  })
+                  ->filter(function ($id) {
+                      return User::where('id', $id)->exists();
+                  });
+
+
+        $imgIds = Str::of($data['content'])
+                     ->matchAll('/img_id=[\d]+/')
+                     ->unique()
+                     ->transform(function ($item) {
+                         return Str::of($item)->replaceMatches('/img_id=/', '')->value();
+                     });
+
         $message = Message::create($data);
+
+        Image::whereIn('id', $imgIds)->update(['message_id' => $message->id]);
+
+        Image::where('user_id', auth()->id())
+             ->whereNull('message_id')
+             ->get()
+             ->pluck('path')
+             ->each(function ($path) {
+                 Storage::disk('public')->delete($path);
+             });
+
+        Image::where('user_id', auth()->id())
+             ->whereNull('message_id')->delete();
+
+        $message->answeredUsers()->attach($ids);
+
+        $message->loadCount('likedUsers');
 
         return MessageResource::make($message)->resolve();
     }
@@ -73,5 +113,13 @@ class MessageController extends Controller
     public function toggleLike(Message $message)
     {
         $message->likedUsers()->toggle(auth()->id());
+    }
+
+    public function storeComplaint(ComplaintStoreRequest $request, Message $message)
+    {
+        $data = $request->validated();
+        $message->complaintedUsers()->attach(auth()->id(), $data);
+
+        return MessageResource::make($message)->resolve();
     }
 }

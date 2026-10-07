@@ -6,13 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    protected $guarded  = false;
+    protected $guarded = false;
 
     protected $withCount = ['likedUsers'];
 
     public function getIsLikedAttribute()
     {
         return $this->likedUsers()->where('user_id', auth()->id())->exists();
+    }
+
+    public function getIsNotSolvedComplaintAttribute()
+    {
+        return $this->complaintedUsers()
+                    ->where('user_id', auth()->id())
+                    ->where('is_solved', false)
+                    ->exists();
     }
 
     public function user()
@@ -23,5 +31,15 @@ class Message extends Model
     public function likedUsers()
     {
         return $this->belongsToMany(User::class, 'message_user_likes', 'message_id', 'user_id');
+    }
+
+    public function answeredUsers()
+    {
+        return $this->belongsToMany(User::class, 'message_user_answers', 'message_id', 'user_id');
+    }
+
+    public function complaintedUsers()
+    {
+        return $this->belongsToMany(User::class, 'complaints', 'message_id', 'user_id');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
@@ -39,9 +40,14 @@ Route::middleware('auth')->group(function () {
     Route::post('messages/{message}/likes', [MessageController::class, 'toggleLike'])
          ->name('messages.likes.toggle');
 
+    Route::post('messages/{message}/complaints', [MessageController::class, 'storeComplaint'])
+         ->name('messages.complaints.store');
+
 
     Route::get('/users/personal', [UserController::class, 'personal'])->name('users.personal');
     Route::patch('/users/personal', [UserController::class, 'update']);
+
+    Route::post('images', [ImageController::class, 'store']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
