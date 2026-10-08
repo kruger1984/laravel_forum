@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ComplaintController;
+use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MessageController;
@@ -48,6 +50,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/users/personal', [UserController::class, 'update']);
 
     Route::post('images', [ImageController::class, 'store']);
+
+    Route::get('admin', [MainController::class, 'index'])->name('admin.main.index');
+    Route::get('admin/complaints', [ComplaintController::class, 'index'])->name('admin.complaints.index');
+    Route::patch('admin/complaints/{complaint}', [ComplaintController::class, 'update'])->name('admin.complaints.update');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
