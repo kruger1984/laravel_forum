@@ -8,12 +8,7 @@
                 <select @change="getBranches" class="border-gray-300 p-2 w-1/4" v-model="section_id">
                     <option value="null" selected disabled>Choose section</option>
                     <template v-for="section in sections">
-                        <template v-if="this.$page.props.auth.roles.some(code => {
-                            return [
-                                'editor',
-                                `editor.${section.id}`
-                            ].includes(code);
-                        })">
+                        <template v-if="checkSectionAuth(section)">
                             <option :value="section.id">{{ section.title }}</option>
                         </template>
                     </template>
@@ -76,6 +71,14 @@ export default {
                 .then(response => {
                     this.branches = response.data;
                 })
+        },
+        checkSectionAuth(section) {
+            return this.$page.props.auth.roles.some(code => {
+                return [
+                    'editor',
+                    `editor.${section.id}`
+                ].includes(code);
+            })
         }
     },
     layout: MainLayout

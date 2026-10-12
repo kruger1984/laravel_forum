@@ -9,12 +9,15 @@ use App\Http\Resources\Section\SectionResource;
 use App\Http\Resources\Section\SectionWithBranchesResource;
 use App\Models\Branch;
 use App\Models\Section;
+use App\Policies\SectionPolicy;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class SectionController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -32,6 +35,7 @@ class SectionController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Section::class);
         return Inertia('Section/Create');
     }
 
@@ -40,6 +44,7 @@ class SectionController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $this->authorize('create', Section::class);
         $data = $request->validated();
 
         Section::query()->firstOrCreate($data);

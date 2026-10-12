@@ -2,14 +2,7 @@
     <div>
         <div class="flex items-center mb-4">
             <h3 class="text-xl mr-4">{{ branch.title }}</h3>
-            <template v-if="this.$page.props.auth.roles.some(code => {
-                            return [
-                                'editor',
-                                `editor.${branch.section_id}`,
-                                `editor.${branch.section_id}.${branch.id}`,
-                                `editor.${branch.section_id}.${branch.parent_id}`,
-                            ].includes(code);
-                        })">
+            <template v-if="checkBranchAuth(branch)">
                 <Link :href="route('branches.themes.create', branch.id)"
                       class="block w-1/6 px-2 py-1 mr-4 bg-white border border-gray-300 rounded-lg text-center">+ Theme
                 </Link>
@@ -31,14 +24,7 @@
                     </div>
                     <h3>{{ branch.title }}</h3>
                 </Link>
-                <template v-if="this.$page.props.auth.roles.some(code => {
-                            return [
-                                'editor',
-                                `editor.${branch.section_id}`,
-                                `editor.${branch.section_id}.${branch.id}`,
-                                `editor.${branch.section_id}.${branch.parent_id}`,
-                            ].includes(code);
-                        })">
+                <template v-if="checkBranchAuth(branch)">
                     <Link :href="route('branches.edit', branch.id)" class="block bg-sky-600 p-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                              class="size-6 stroke-white">
@@ -75,13 +61,7 @@
                     </div>
 
                 </Link>
-                <template v-if="this.$page.props.auth.roles.some(code => {
-                            return [
-                                'editor',
-                                `editor.${branch.section_id}`,
-                                `editor.${branch.section_id}.${branch.id}`
-                            ].includes(code);
-                        })">
+                <template v-if="checkThemeAuth(branch)">
                     <Link :href="route('themes.edit', theme.id)" class="block bg-sky-600 p-4 mx-2 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                              class="size-4 stroke-white">
@@ -114,7 +94,25 @@ export default {
     props: [
         'branch',
     ],
-
+    methods: {
+        checkBranchAuth(branch) {
+            return this.$page.props.auth.roles.some(code => {
+                return [
+                    'editor',
+                    `editor.${branch.section_id}`,
+                    `editor.${branch.section_id}.${branch.id}`,
+                    `editor.${branch.section_id}.${branch.parent_id}`,
+                ].includes(code);
+            })
+        },
+        checkThemeAuth(branch) { return this.$page.props.auth.roles.some(code => {
+            return [
+                'editor',
+                `editor.${branch.section_id}`,
+                `editor.${branch.section_id}.${branch.id}`
+            ].includes(code);
+        })},
+    },
     layout: MainLayout
 
 }

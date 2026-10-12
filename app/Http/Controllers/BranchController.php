@@ -9,10 +9,12 @@ use App\Http\Resources\Branch\BranchWithChildrenResource;
 use App\Http\Resources\Section\SectionResource;
 use App\Models\Branch;
 use App\Models\Section;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -55,6 +57,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
+        $this->authorize('update', $branch);
         $sections = Section::all();
         $sections = SectionResource::collection($sections)->resolve();
         $branch = BranchResource::make($branch)->resolve();
@@ -66,6 +69,8 @@ class BranchController extends Controller
      */
     public function update(UpdateRequest $request, Branch $branch)
     {
+        $this->authorize('update', $branch);
+
         $data = $request->validated();
         $branch->update($data);
         return redirect()->route('sections.index');
@@ -76,6 +81,8 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
+        $this->authorize('delete', $branch);
+
         $branch->delete();
         return redirect()->route('sections.index');
     }

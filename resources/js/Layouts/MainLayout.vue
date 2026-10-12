@@ -1,10 +1,22 @@
 <template>
     <div>
         <div class="bg-white border-b border-gray-300 py-4">
-            <div class="w-3/4 mx-auto">
-                <Link :href="route('sections.index')" class="mr-4">Forum</Link>
-                <Link :href="route('users.personal')" class="mr-4">Personal account</Link>
-                <Link :href="route('admin.main.index')">Admin Page</Link>
+            <div class="w-3/4 mx-auto flex items-center justify-between">
+                <div>
+                    <Link :href="route('sections.index')" class="mr-4">Forum</Link>
+                    <Link :href="route('users.personal')" class="mr-4">Personal account</Link>
+                    <Link :href="route('admin.main.index')">Admin Page</Link>
+                </div>
+                <div>
+                    <div>
+                        <a href="#" class="flex items-center">
+                            <p  class="mr-2">Notification</p>
+                            <span>0</span>
+                        </a>
+                    </div>
+
+                </div>
+
             </div>
         </div>
         <div class="w-3/4 mx-auto py-4">
