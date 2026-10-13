@@ -112,6 +112,22 @@ export default {
     data() {
         return {}
     },
+
+    created() {
+        window.Echo.channel(`themes.${this.theme.id}`)
+            .listen('.store_message', res => {
+                this.theme.messages.push(res.data)
+            })
+
+        window.Echo.channel(`themes.like.${this.theme.id}`)
+            .listen('.store_like', res => {
+                this.theme.messages.filter(message => {
+                    return message.id === res.data.id
+                }).map(message => {
+                    message.likes = res.data.likes
+                })
+            })
+    },
     components: {
         Link
     },
