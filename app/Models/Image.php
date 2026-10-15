@@ -24,7 +24,7 @@ class Image extends Model
 
         \Log::info($paths);
 
-        $paths->each(function ($path) {
+        $paths->each(function ($path): void {
                 Storage::disk('public')->delete($path);
             });
     }

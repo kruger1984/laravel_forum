@@ -18,6 +18,7 @@
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.7",
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.4",
         "laravel/pail": "^1.2.5",
@@ -25,7 +26,8 @@
         "laravel/pint": "^1.27",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^12.5.12"
+        "phpunit/phpunit": "^12.5.12",
+        "rector/rector": "^2.7"
     },
     "autoload": {
         "psr-4": {
@@ -76,6 +78,19 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "stan": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "rector": "vendor/bin/rector process",
+        "rector:dry": "vendor/bin/rector process --dry-run",
+        "lint": [
+            "@rector",
+            "vendor/bin/pint",
+            "@stan"
+        ],
+        "ide-helper": [
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models"
         ]
     },
     "extra": {
