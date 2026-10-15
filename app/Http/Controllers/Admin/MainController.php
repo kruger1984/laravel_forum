@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -7,7 +9,6 @@ use App\Models\Branch;
 use App\Models\Message;
 use App\Models\Theme;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
@@ -31,6 +32,7 @@ class MainController extends Controller
                 'count' => User::count(),
             ],
         ];
+
         return inertia('Admin/Main/Index', compact('stats'));
     }
 }

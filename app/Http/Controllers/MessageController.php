@@ -1,17 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Events\StoreLikeEvent;
-use App\Events\StoreMessageEvent;
 use App\Http\Requests\Complaint\StoreRequest as ComplaintStoreRequest;
 use App\Http\Requests\Message\StoreRequest;
 use App\Http\Requests\Message\UpdateRequest;
 use App\Http\Resources\Message\MessageResource;
 use App\Jobs\ProcessMessageJob;
-use App\Models\Image;
 use App\Models\Message;
-use App\Models\User;
 use App\Service\NotificationService;
 
 class MessageController extends Controller
@@ -37,7 +36,7 @@ class MessageController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $data            = $request->validated();
+        $data = $request->validated();
         $data['user_id'] = auth()->id();
 
         $message = Message::create($data);
@@ -84,11 +83,10 @@ class MessageController extends Controller
     public function toggleLike(Message $message)
     {
         $res = $message->likedUsers()->toggle(auth()->id());
-        if($res['attached']) {
+        if ($res['attached']) {
             NotificationService::store($message, null, 'You have liked');
         }
         broadcast(new StoreLikeEvent($message))->toOthers();
-
 
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Theme;
 
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,7 +25,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'nullable|string',
         ];
     }

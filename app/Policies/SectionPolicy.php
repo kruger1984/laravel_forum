@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Section;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class SectionPolicy
 {
@@ -33,7 +34,7 @@ class SectionPolicy
 
         $authRoles = collect([
             'editor',
-            'admin'
+            'admin',
         ]);
 
         return $roles->intersect($authRoles)->count() > 0;
@@ -56,7 +57,7 @@ class SectionPolicy
 
         $authRoles = collect([
             'editor',
-            'admin'
+            'admin',
         ]);
 
         return $roles->intersect($authRoles)->count() > 0;

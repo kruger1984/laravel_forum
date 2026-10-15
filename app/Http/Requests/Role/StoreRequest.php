@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Role;
 
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,9 +25,9 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'      => 'required|string',
+            'title' => 'required|string',
             'section_id' => 'nullable|integer|exists:sections,id',
-            'branch_id'  => 'nullable|integer|exists:branches,id',
+            'branch_id' => 'nullable|integer|exists:branches,id',
         ];
     }
 }

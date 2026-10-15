@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\User;
 
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,7 +25,7 @@ class ToggleRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role_id' => 'required|integer|exists:roles,id'
+            'role_id' => 'required|integer|exists:roles,id',
         ];
     }
 }

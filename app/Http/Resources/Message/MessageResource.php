@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Message;
 
 use App\Http\Resources\User\UserResource;
@@ -16,14 +18,14 @@ class MessageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'                       => $this->id,
-            'content'                  => $this->content,
-            'theme_id'                 => $this->theme_id,
-            'is_liked'                 => $this->isLiked,
-            'likes'                    => $this->liked_users_count,
+            'id' => $this->id,
+            'content' => $this->content,
+            'theme_id' => $this->theme_id,
+            'is_liked' => $this->isLiked,
+            'likes' => $this->liked_users_count,
             'is_not_solved_complaint' => $this->is_not_solved_complaint,
-            'user'                     => UserResource::make($this->user)->resolve(),
-            'time'                     => $this->created_at->format('d-m-Y')
+            'user' => UserResource::make($this->user)->resolve(),
+            'time' => $this->created_at->format('d-m-Y'),
         ];
     }
 }

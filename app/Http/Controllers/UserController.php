@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\User\UserResource;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 
 class UserController extends Controller
@@ -33,15 +33,15 @@ class UserController extends Controller
 
         $manager = ImageManager::usingDriver(Driver::class);
         $manager->decode($absolutePath)
-                ->cover(200, 200)
-                ->save($absolutePath);
+            ->cover(200, 200)
+            ->save($absolutePath);
 
-        if(auth()->user()->avatar) {
+        if (auth()->user()->avatar) {
             Storage::disk('public')->delete(auth()->user()->avatar);
         }
 
         auth()->user()->update([
-            'avatar' => $path
+            'avatar' => $path,
         ]);
 
         return UserResource::make(auth()->user())->resolve();

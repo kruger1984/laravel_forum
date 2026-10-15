@@ -1,6 +1,7 @@
 <?php
 
-use App\Events\StoreNotificationEvent;
+declare(strict_types=1);
+
 use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\RoleController;
@@ -18,10 +19,10 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin'       => Route::has('login'),
-        'canRegister'    => Route::has('register'),
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
-        'phpVersion'     => PHP_VERSION,
+        'phpVersion' => PHP_VERSION,
     ]);
 });
 
@@ -39,14 +40,13 @@ Route::middleware('auth')->group(function (): void {
     Route::get('sections/{section}/branches_except/{branch}', [SectionController::class, 'branchIndexExcept']);
 
     Route::get('branches/{branch}/themes/create', [BranchController::class, 'themeCreate'])
-         ->name('branches.themes.create');
+        ->name('branches.themes.create');
 
     Route::post('messages/{message}/likes', [MessageController::class, 'toggleLike'])
-         ->name('messages.likes.toggle');
+        ->name('messages.likes.toggle');
 
     Route::post('messages/{message}/complaints', [MessageController::class, 'storeComplaint'])
-         ->name('messages.complaints.store');
-
+        ->name('messages.complaints.store');
 
     Route::get('/users/personal', [UserController::class, 'personal'])->name('users.personal');
     Route::patch('/users/personal', [UserController::class, 'update']);
@@ -62,13 +62,13 @@ Route::middleware('auth')->group(function (): void {
     Route::get('admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::get('admin/roles/create', [RoleController::class, 'create'])->name('admin.roles.create');
     Route::post('admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');
-    Route::get('admin/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users.index');
-    Route::post('/admin/users/{user}/roles', [\App\Http\Controllers\Admin\UserController::class, 'toggleRole'])
-         ->name('admin.users.roles');
+    Route::get('admin/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users.index');
+    Route::post('/admin/users/{user}/roles', [App\Http\Controllers\Admin\UserController::class, 'toggleRole'])
+        ->name('admin.users.roles');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

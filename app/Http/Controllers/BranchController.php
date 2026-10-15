@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Branch\StoreRequest;
@@ -10,11 +12,11 @@ use App\Http\Resources\Section\SectionResource;
 use App\Models\Branch;
 use App\Models\Section;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
     use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -30,6 +32,7 @@ class BranchController extends Controller
     {
         $sections = Section::all();
         $sections = SectionResource::collection($sections)->resolve();
+
         return inertia('Branch/Create', compact('sections'));
     }
 
@@ -40,6 +43,7 @@ class BranchController extends Controller
     {
         $data = $request->validated();
         Branch::query()->firstOrCreate($data);
+
         return redirect()->route('sections.index');
     }
 
@@ -49,6 +53,7 @@ class BranchController extends Controller
     public function show(Branch $branch)
     {
         $branch = BranchWithChildrenResource::make($branch)->resolve();
+
         return inertia('Branch/Show', compact('branch'));
     }
 
@@ -61,6 +66,7 @@ class BranchController extends Controller
         $sections = Section::all();
         $sections = SectionResource::collection($sections)->resolve();
         $branch = BranchResource::make($branch)->resolve();
+
         return inertia('Branch/Edit', compact('sections', 'branch'));
     }
 
@@ -73,6 +79,7 @@ class BranchController extends Controller
 
         $data = $request->validated();
         $branch->update($data);
+
         return redirect()->route('sections.index');
     }
 
@@ -84,12 +91,14 @@ class BranchController extends Controller
         $this->authorize('delete', $branch);
 
         $branch->delete();
+
         return redirect()->route('sections.index');
     }
 
     public function themeCreate(Branch $branch)
     {
         $branch = BranchResource::make($branch)->resolve();
+
         return inertia('Theme/Create', compact('branch'));
 
     }

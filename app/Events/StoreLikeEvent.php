@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Http\Resources\Message\MessageResource;
-use App\Http\Resources\Notification\NotificationResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -35,13 +33,13 @@ class StoreLikeEvent implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('themes.like.' .$this->message->theme_id),
+            new Channel('themes.like.'.$this->message->theme_id),
         ];
     }
 
     public function broadcastAs(): string
     {
-       return 'store_like';
+        return 'store_like';
 
     }
 
@@ -52,5 +50,4 @@ class StoreLikeEvent implements ShouldBroadcastNow
         ];
 
     }
-
 }

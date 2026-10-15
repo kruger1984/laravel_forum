@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Section;
 
 use App\Http\Resources\Branch\BranchResource;
@@ -18,7 +20,7 @@ class SectionWithBranchesResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'branches' => BranchResource::collection($this->parentBranches)->resolve()
+            'branches' => BranchResource::collection($this->parentBranches)->resolve(),
         ];
     }
 }

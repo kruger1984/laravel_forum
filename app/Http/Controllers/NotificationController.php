@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Notification\UpdateCollectionRequest;
@@ -12,8 +14,9 @@ class NotificationController extends Controller
         $data = $request->validated();
 
         Notification::whereIn('id', $data['ids'])->update([
-            'is_read' => true
+            'is_read' => true,
         ]);
+
         return response()->json(['count' => auth()->user()->notifications()->count()]);
 
     }

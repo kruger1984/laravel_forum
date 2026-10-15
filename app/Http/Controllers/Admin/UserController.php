@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -15,6 +17,7 @@ class UserController extends Controller
     {
         $users = UserWithRolesResource::collection(User::all())->resolve();
         $roles = RoleResource::collection(Role::all())->resolve();
+
         return inertia('Admin/User/Index', compact('users', 'roles'));
     }
 

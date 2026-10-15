@@ -84,8 +84,7 @@
         "rector:dry": "vendor/bin/rector process --dry-run",
         "lint": [
             "@rector",
-            "vendor/bin/pint",
-            "@stan"
+            "vendor/bin/pint"
         ],
         "ide-helper": [
             "@php artisan ide-helper:generate",

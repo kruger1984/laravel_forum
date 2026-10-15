@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Branch;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class BranchPolicy
 {
@@ -41,9 +42,9 @@ class BranchPolicy
 
         $authRoles = collect([
             'editor',
-            'editor' . '.' . $branch->section_id,
-            'editor' . '.' . $branch->section_id . '.' . $branch->id,
-            'admin'
+            'editor'.'.'.$branch->section_id,
+            'editor'.'.'.$branch->section_id.'.'.$branch->id,
+            'admin',
         ]);
 
         return $roles->intersect($authRoles)->count() > 0;
@@ -58,9 +59,9 @@ class BranchPolicy
 
         $authRoles = collect([
             'editor',
-            'editor' . '.' . $branch->section_id,
-            'editor' . '.' . $branch->section_id . '.' . $branch->id,
-            'admin'
+            'editor'.'.'.$branch->section_id,
+            'editor'.'.'.$branch->section_id.'.'.$branch->id,
+            'admin',
         ]);
 
         return $roles->intersect($authRoles)->count() > 0;

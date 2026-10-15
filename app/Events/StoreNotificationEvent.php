@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Http\Resources\Notification\NotificationResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -34,13 +34,13 @@ class StoreNotificationEvent implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('users.notifications.' .$this->notification->user_id),
+            new PrivateChannel('users.notifications.'.$this->notification->user_id),
         ];
     }
 
     public function broadcastAs(): string
     {
-       return 'user_notifications';
+        return 'user_notifications';
 
     }
 
@@ -51,5 +51,4 @@ class StoreNotificationEvent implements ShouldBroadcastNow
         ];
 
     }
-
 }

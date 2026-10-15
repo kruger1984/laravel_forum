@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Complaint\ComplaintResource;
 use App\Models\Complaint;
 use App\Service\NotificationService;
-use Illuminate\Http\Request;
 
 class ComplaintController extends Controller
 {

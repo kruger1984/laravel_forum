@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Role\RoleResource;
@@ -16,8 +18,8 @@ class UserWithRolesResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'     => $this->id,
-            'name'   => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'avatar_url' => $this->avatar_url,
             'roles' => RoleResource::collection($this->roles)->resolve(),
         ];

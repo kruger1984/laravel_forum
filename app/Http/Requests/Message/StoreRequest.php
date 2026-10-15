@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Message;
 
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,7 +25,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content'  => 'required|string',
+            'content' => 'required|string',
             'theme_id' => 'required|integer|exists:themes,id',
 
         ];

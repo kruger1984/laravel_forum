@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -17,22 +19,9 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-
     public function getAvatarUrlAttribute()
     {
-        return $this->avatar ? url('storage/' . $this->avatar) : null;
+        return $this->avatar ? url('storage/'.$this->avatar) : null;
     }
 
     public function roles()
@@ -46,9 +35,9 @@ class User extends Authenticatable
             ->where('is_read', false);
     }
 
-    public static function getCleanedUserId ($data)
+    public static function getCleanedUserId($data)
     {
-       return getByPatternId($data, '/@[\d]+/', '/@/')
+        return getByPatternId($data, '/@[\d]+/', '/@/')
             ->filter(function ($id) {
                 return User::where('id', $id)->exists();
             });
@@ -58,8 +47,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Message::class, 'message_user_likes', 'user_id', 'message_id');
     }
+
     public function complaintedMessages()
     {
         return $this->belongsToMany(Message::class, 'complaints', 'user_id', 'message_id');
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }

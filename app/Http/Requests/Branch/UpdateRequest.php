@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Branch;
 
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,9 +25,9 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'      => 'required|string',
+            'title' => 'required|string',
             'section_id' => 'required|integer|exists:sections,id',
-            'parent_id'  => 'nullable|integer|exists:sections,id',
+            'parent_id' => 'nullable|integer|exists:sections,id',
         ];
     }
 }

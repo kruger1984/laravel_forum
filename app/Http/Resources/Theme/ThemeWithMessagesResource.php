@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Theme;
 
 use App\Http\Resources\Message\MessageResource;
@@ -29,10 +31,10 @@ class ThemeWithMessagesResource extends JsonResource
         });
 
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
+            'id' => $this->id,
+            'title' => $this->title,
             'description' => $this->description,
-            'branch_id'   => $this->branch_id,
+            'branch_id' => $this->branch_id,
             'messages' => MessageResource::collection($this->messages->load('user'))->resolve(),
         ];
     }

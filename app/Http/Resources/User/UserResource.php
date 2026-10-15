@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\User;
 
 use Illuminate\Http\Request;
@@ -15,8 +17,8 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'     => $this->id,
-            'name'   => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'avatar_url' => $this->avatar_url,
         ];
     }

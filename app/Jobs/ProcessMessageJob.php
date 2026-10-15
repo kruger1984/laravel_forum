@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Events\StoreMessageEvent;
@@ -8,13 +10,13 @@ use App\Models\User;
 use App\Service\NotificationService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\SerializesModels;
 
 class ProcessMessageJob implements ShouldQueue
 {
     use Queueable;
 
     private $data;
+
     private $message;
 
     /**

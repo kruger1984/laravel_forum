@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Image\StoreRequest;
@@ -17,7 +19,7 @@ class ImageController extends Controller
 
         $image = Image::create([
             'path' => $path,
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
         ]);
 
         return ImageResource::make($image)->resolve();

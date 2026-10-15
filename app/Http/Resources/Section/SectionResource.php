@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Section;
 
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class SectionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title
+            'title' => $this->title,
         ];
     }
 }

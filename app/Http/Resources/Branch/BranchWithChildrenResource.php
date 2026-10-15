@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Branch;
 
 use App\Http\Resources\Theme\ThemeResource;
@@ -16,12 +18,12 @@ class BranchWithChildrenResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'         => $this->id,
-            'title'      => $this->title,
+            'id' => $this->id,
+            'title' => $this->title,
             'section_id' => $this->section_id,
-            'parent_id'  => $this->parent_id,
-            'children'   => BranchResource::collection($this->children)->resolve(),
-            'themes'   => ThemeResource::collection($this->themes)->resolve(),
+            'parent_id' => $this->parent_id,
+            'children' => BranchResource::collection($this->children)->resolve(),
+            'themes' => ThemeResource::collection($this->themes)->resolve(),
         ];
     }
 }
