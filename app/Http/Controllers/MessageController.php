@@ -99,6 +99,8 @@ class MessageController extends Controller
 
         NotificationService::store($message, null, 'You have been complained about');
 
+        $message->is_not_solved_complaint = true;
+
         return MessageResource::make($message)->resolve();
     }
 }

@@ -15,12 +15,25 @@ class ThemeWithMessagesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $msgIds = auth()->user()->likedMessages()->pluck('id');
+
+        $this->messages->each(function ($message) use ($msgIds) {
+            $message->is_liked = $msgIds->contains($message->id);
+        });
+
+        $complaintedMsgIds = auth()->user()->complaintedMessages()->pluck('id');
+
+        $this->messages->each(function ($message) use ($complaintedMsgIds) {
+            $message->is_not_solved_complaint = $complaintedMsgIds->contains($message->id);
+        });
+
         return [
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
             'branch_id'   => $this->branch_id,
-            'messages' => MessageResource::collection($this->messages)->resolve(),
+            'messages' => MessageResource::collection($this->messages->load('user'))->resolve(),
         ];
     }
 }
