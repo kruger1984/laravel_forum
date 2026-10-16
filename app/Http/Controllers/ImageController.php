@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-    public function store(StoreRequest $request)
+    /**
+     * @param  StoreRequest  $request
+     *
+     * @return array<string, mixed>
+     */
+    public function store(StoreRequest $request): array
     {
         $data = $request->validated();
 

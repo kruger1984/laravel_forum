@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Events;
 
 use App\Http\Resources\Notification\NotificationResource;
+use App\Models\Notification;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -16,12 +17,12 @@ class StoreNotificationEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $notification;
+    private Notification $notification;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($notification)
+    public function __construct(Notification $notification)
     {
         $this->notification = $notification;
     }
@@ -44,6 +45,11 @@ class StoreNotificationEvent implements ShouldBroadcastNow
 
     }
 
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array<string, mixed>
+     */
     public function broadcastWith(): array
     {
         return [

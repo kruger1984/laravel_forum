@@ -13,18 +13,27 @@ class Branch extends Model
 {
     use SoftDeletes;
 
-    protected $guarded = false;
+    protected $guarded = [];
 
+    /**
+     * @return HasMany<self, $this>
+     */
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
+    /**
+     * @return BelongsTo<self, $this>
+     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id', 'id');
     }
 
+    /**
+     * @return HasMany<Theme, $this>
+     */
     public function themes(): HasMany
     {
         return $this->hasMany(Theme::class, 'branch_id', 'id');

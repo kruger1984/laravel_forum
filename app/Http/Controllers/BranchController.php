@@ -12,23 +12,18 @@ use App\Http\Resources\Section\SectionResource;
 use App\Models\Branch;
 use App\Models\Section;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
+use Inertia\Response;
 
 class BranchController extends Controller
 {
     use AuthorizesRequests;
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         $sections = Section::all();
         $sections = SectionResource::collection($sections)->resolve();
@@ -39,7 +34,7 @@ class BranchController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         $data = $request->validated();
         Branch::query()->firstOrCreate($data);
@@ -50,7 +45,7 @@ class BranchController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Branch $branch)
+    public function show(Branch $branch): Response
     {
         $branch = BranchWithChildrenResource::make($branch)->resolve();
 
@@ -60,7 +55,7 @@ class BranchController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Branch $branch)
+    public function edit(Branch $branch): Response
     {
         $this->authorize('update', $branch);
         $sections = Section::all();
@@ -73,7 +68,7 @@ class BranchController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Branch $branch)
+    public function update(UpdateRequest $request, Branch $branch): RedirectResponse
     {
         $this->authorize('update', $branch);
 
@@ -86,7 +81,7 @@ class BranchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Branch $branch)
+    public function destroy(Branch $branch): RedirectResponse
     {
         $this->authorize('delete', $branch);
 
@@ -95,7 +90,7 @@ class BranchController extends Controller
         return redirect()->route('sections.index');
     }
 
-    public function themeCreate(Branch $branch)
+    public function themeCreate(Branch $branch): Response
     {
         $branch = BranchResource::make($branch)->resolve();
 

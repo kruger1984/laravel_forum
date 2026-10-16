@@ -4,25 +4,29 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Log;
 
 class Image extends Model
 {
-    protected $guarded = false;
+    protected $guarded = [];
 
-    public function getUrlAttribute()
+    public function getUrlAttribute(): string|UrlGenerator
     {
         return url('storage/'.$this['path']);
     }
 
-    public function scopeCleanFromStorage(Builder $builder)
+    /**
+     * @param Builder<self> $builder
+     */
+    public function scopeCleanFromStorage(Builder $builder): void
     {
         $paths = $builder->where('user_id', auth()->id())
             ->whereNull('message_id')
-            ->get()
             ->pluck('path');
 
         Log::info($paths);
@@ -32,14 +36,21 @@ class Image extends Model
         });
     }
 
-    public function scopeCleanFromTable(Builder $builder)
+    /**
+     * @param Builder<self> $builder
+     */
+    public function scopeCleanFromTable(Builder $builder): void
     {
         $builder->where('user_id', auth()->id())
             ->whereNull('message_id')->delete();
     }
 
-    public function scopeUpdateMessageId(Builder $builder, $imgIds, $message)
-    {
+    /**
+     * @param Builder<self> $builder
+     * @param Collection<int, string>|array<int, mixed> $imgIds
+     * @param Message $message
+     */
+    public function scopeUpdateMessageId(Builder $builder, Collection|array $imgIds, Message $message): void    {
         $builder->whereIn('id', $imgIds)->update(['message_id' => $message->id]);
     }
 }

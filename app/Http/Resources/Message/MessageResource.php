@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Resources\Message;
 
 use App\Http\Resources\User\UserResource;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Message
+ */
 class MessageResource extends JsonResource
 {
     /**
@@ -21,7 +25,7 @@ class MessageResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'theme_id' => $this->theme_id,
-            'is_liked' => $this->isLiked,
+            'is_liked' => $this->is_liked,
             'likes' => $this->liked_users_count,
             'is_not_solved_complaint' => $this->is_not_solved_complaint,
             'user' => UserResource::make($this->user)->resolve(),

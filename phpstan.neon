@@ -1,0 +1,20 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - database
+        - routes
+
+ #   scanFiles:
+  #      - _ide_helper_models.php
+  #      - _ide_helper.php
+   #     - .phpstorm.meta.php
+
+    level: 7
+
+    treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        # - '#Property .* does not exist on Illuminate\\Database\\Eloquent\\Model#'

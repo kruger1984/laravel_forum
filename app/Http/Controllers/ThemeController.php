@@ -9,29 +9,15 @@ use App\Http\Requests\Theme\UpdateRequest;
 use App\Http\Resources\Theme\ThemeResource;
 use App\Http\Resources\Theme\ThemeWithMessagesResource;
 use App\Models\Theme;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 
 class ThemeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         $data = $request->validated();
         Theme::create($data);
@@ -42,7 +28,7 @@ class ThemeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Theme $theme)
+    public function show(Theme $theme): Response
     {
         $theme = ThemeWithMessagesResource::make($theme)->resolve();
 
@@ -52,7 +38,7 @@ class ThemeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Theme $theme)
+    public function edit(Theme $theme): Response
     {
         $theme = ThemeResource::make($theme)->resolve();
 
@@ -62,7 +48,7 @@ class ThemeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Theme $theme)
+    public function update(UpdateRequest $request, Theme $theme): RedirectResponse
     {
         $data = $request->validated();
         $theme->update($data);
@@ -73,7 +59,7 @@ class ThemeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Theme $theme)
+    public function destroy(Theme $theme): RedirectResponse
     {
         $theme->delete();
 

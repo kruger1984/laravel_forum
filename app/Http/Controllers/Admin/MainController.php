@@ -9,10 +9,11 @@ use App\Models\Branch;
 use App\Models\Message;
 use App\Models\Theme;
 use App\Models\User;
+use Inertia\Response;
 
 class MainController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $stats = [
             [

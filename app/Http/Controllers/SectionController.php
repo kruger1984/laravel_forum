@@ -12,8 +12,10 @@ use App\Http\Resources\Section\SectionWithBranchesResource;
 use App\Models\Branch;
 use App\Models\Section;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class SectionController extends Controller
 {
@@ -22,29 +24,29 @@ class SectionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $sections = Section::query()->with('parentBranches')->get();
 
         $sections = SectionWithBranchesResource::collection($sections)->resolve();
 
-        return Inertia::render('Section/Index', compact('sections'));
+        return inertia('Section/Index', compact('sections'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         $this->authorize('create', Section::class);
 
-        return Inertia('Section/Create');
+        return inertia('Section/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         $this->authorize('create', Section::class);
         $data = $request->validated();
@@ -55,17 +57,9 @@ class SectionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Section $section)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Section $section)
+    public function edit(Section $section): Response
     {
         $section = SectionResource::make($section)->resolve();
 
@@ -75,7 +69,7 @@ class SectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Section $section)
+    public function update(UpdateRequest $request, Section $section): RedirectResponse
     {
         $data = $request->validated();
         $section->update($data);
@@ -86,19 +80,30 @@ class SectionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Section $section)
+    public function destroy(Section $section): RedirectResponse
     {
         $section->delete();
 
         return redirect()->back();
     }
 
-    public function branchIndex(Section $section)
+    /**
+     * @param  Section  $section
+     *
+     * @return array<string, mixed>
+     */
+    public function branchIndex(Section $section): array
     {
         return BranchResource::collection($section->branches)->resolve();
     }
 
-    public function branchIndexExcept(Section $section, Branch $branch)
+    /**
+     * @param  Section  $section
+     * @param  Branch  $branch
+     *
+     * @return array<string, mixed>
+     */
+    public function branchIndexExcept(Section $section, Branch $branch): array
     {
         $branches = $section->branches()->where('id', '!=', $branch->id)->get();
 

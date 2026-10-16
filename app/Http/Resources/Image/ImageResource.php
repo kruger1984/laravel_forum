@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Image;
 
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Image
+ */
 class ImageResource extends JsonResource
 {
     /**

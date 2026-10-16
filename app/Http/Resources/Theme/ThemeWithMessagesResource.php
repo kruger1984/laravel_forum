@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Resources\Theme;
 
 use App\Http\Resources\Message\MessageResource;
+use App\Models\Message;
+use App\Models\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Theme
+ */
 class ThemeWithMessagesResource extends JsonResource
 {
     /**
@@ -20,13 +25,13 @@ class ThemeWithMessagesResource extends JsonResource
 
         $msgIds = auth()->user()->likedMessages()->pluck('id');
 
-        $this->messages->each(function ($message) use ($msgIds): void {
+        $this->messages->each(function (Message $message) use ($msgIds) {
             $message->is_liked = $msgIds->contains($message->id);
         });
 
         $complaintedMsgIds = auth()->user()->complaintedMessages()->pluck('id');
 
-        $this->messages->each(function ($message) use ($complaintedMsgIds): void {
+        $this->messages->each(function (Message $message) use ($complaintedMsgIds) {
             $message->is_not_solved_complaint = $complaintedMsgIds->contains($message->id);
         });
 

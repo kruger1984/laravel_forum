@@ -4,43 +4,50 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property bool|null $is_not_solved_complaint
+ * @property bool|null $is_liked
+ * @property-read Collection<int, Message> $messages
+ */
 class Message extends Model
 {
-    protected $guarded = false;
+    protected $guarded = [];
 
     protected $withCount = ['likedUsers'];
 
-    //    public function getIsLikedAttribute()
-    //    {
-    //        return $this->likedUsers()->where('user_id', auth()->id())->exists();
-    //    }
-    //
-    //    public function getIsNotSolvedComplaintAttribute()
-    //    {
-    //        return $this->complaintedUsers()
-    //                    ->where('user_id', auth()->id())
-    //                    ->where('is_solved', false)
-    //                    ->exists();
-    //    }
-
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function likedUsers()
+    /**
+     * @return BelongsToMany<User, $this>
+     */
+    public function likedUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'message_user_likes', 'message_id', 'user_id');
     }
 
-    public function answeredUsers()
+    /**
+     * @return BelongsToMany<User, $this>
+     */
+    public function answeredUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'message_user_answers', 'message_id', 'user_id');
     }
 
-    public function complaintedUsers()
+    /**
+     * @return BelongsToMany<User, $this>
+     */
+    public function complaintedUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'complaints', 'message_id', 'user_id');
     }

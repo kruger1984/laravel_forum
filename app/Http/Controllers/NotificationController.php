@@ -6,10 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Notification\UpdateCollectionRequest;
 use App\Models\Notification;
+use Symfony\Component\HttpFoundation\Response;
 
 class NotificationController extends Controller
 {
-    public function updateCollection(UpdateCollectionRequest $request)
+    public function updateCollection(UpdateCollectionRequest $request): Response
     {
         $data = $request->validated();
 

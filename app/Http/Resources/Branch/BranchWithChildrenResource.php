@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Resources\Branch;
 
 use App\Http\Resources\Theme\ThemeResource;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Branch
+ */
 class BranchWithChildrenResource extends JsonResource
 {
     /**

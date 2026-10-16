@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Resources\Complaint;
 
 use App\Http\Resources\User\UserResource;
+use App\Models\Complaint;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Complaint
+ */
 class ComplaintResource extends JsonResource
 {
     /**

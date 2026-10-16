@@ -6,7 +6,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 if (! function_exists('getByPatternId')) {
-    function getByPatternId($data, $pattern, $replacePattern): Collection
+    /**
+     * @param  array<string, mixed>  $data
+     * @param  string  $pattern
+     * @param  string  $replacePattern
+     * @return Collection<int, string>
+     */
+    function getByPatternId(array $data,string $pattern,string $replacePattern): Collection
     {
         return Str::of($data['content'])
             ->matchAll($pattern)
