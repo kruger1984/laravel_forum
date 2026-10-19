@@ -31,10 +31,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function (): void {
-    Route::resource('sections', SectionController::class);
-    Route::resource('branches', BranchController::class);
-    Route::resource('themes', ThemeController::class);
-    Route::resource('messages', MessageController::class);
+    Route::resource('sections', SectionController::class)->except('show');
+    Route::resource('branches', BranchController::class)->except('index');
+    Route::resource('themes', ThemeController::class)->except(['index', 'create']);
+    Route::resource('messages', MessageController::class)->only('store');
 
     Route::get('sections/{section}/branches', [SectionController::class, 'branchIndex']);
     Route::get('sections/{section}/branches_except/{branch}', [SectionController::class, 'branchIndexExcept']);

@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Storage;
 class ImageController extends Controller
 {
     /**
-     * @param  StoreRequest  $request
-     *
      * @return array<string, mixed>
      */
     public function store(StoreRequest $request): array

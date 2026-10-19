@@ -23,8 +23,6 @@ class UserController extends Controller
     }
 
     /**
-     * @param  UpdateRequest  $request
-     *
      * @return array<string, mixed>
      *
      * @throws RuntimeException|InvalidArgumentException

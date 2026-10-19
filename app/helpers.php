@@ -8,11 +8,9 @@ use Illuminate\Support\Str;
 if (! function_exists('getByPatternId')) {
     /**
      * @param  array<string, mixed>  $data
-     * @param  string  $pattern
-     * @param  string  $replacePattern
      * @return Collection<int, string>
      */
-    function getByPatternId(array $data,string $pattern,string $replacePattern): Collection
+    function getByPatternId(array $data, string $pattern, string $replacePattern): Collection
     {
         return Str::of($data['content'])
             ->matchAll($pattern)

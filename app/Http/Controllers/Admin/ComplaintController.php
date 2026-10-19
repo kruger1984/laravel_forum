@@ -7,9 +7,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Complaint\ComplaintResource;
 use App\Models\Complaint;
+use App\Models\Message;
 use App\Service\NotificationService;
 use Inertia\Response;
-use Inertia\ResponseFactory;
 
 class ComplaintController extends Controller
 {
@@ -22,8 +22,6 @@ class ComplaintController extends Controller
     }
 
     /**
-     * @param  Complaint  $complaint
-     *
      * @return array<string, mixed>
      */
     public function update(Complaint $complaint): array
@@ -34,7 +32,7 @@ class ComplaintController extends Controller
 
         $title = $complaint->is_solved ? 'Your complaint is still under review' : 'Your complaint has been reviewed';
 
-        if ($complaint->message instanceof \App\Models\Message) {
+        if ($complaint->message instanceof Message) {
             NotificationService::store($complaint->message, $complaint->user_id, $title);
         }
 

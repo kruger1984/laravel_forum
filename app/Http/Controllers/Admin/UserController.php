@@ -25,7 +25,7 @@ class UserController extends Controller
     /**
      * @return array<string, mixed>
      */
-    public function toggleRole(User $user, ToggleRoleRequest $request):array
+    public function toggleRole(User $user, ToggleRoleRequest $request): array
     {
         $data = $request->validated();
         $user->roles()->toggle($data);

@@ -13,7 +13,6 @@ use App\Models\Branch;
 use App\Models\Section;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Inertia\Response;
 
 class BranchController extends Controller

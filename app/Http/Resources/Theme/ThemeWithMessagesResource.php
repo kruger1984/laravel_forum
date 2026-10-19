@@ -25,13 +25,13 @@ class ThemeWithMessagesResource extends JsonResource
 
         $msgIds = auth()->user()->likedMessages()->pluck('id');
 
-        $this->messages->each(function (Message $message) use ($msgIds) {
+        $this->messages->each(function (Message $message) use ($msgIds): void {
             $message->is_liked = $msgIds->contains($message->id);
         });
 
         $complaintedMsgIds = auth()->user()->complaintedMessages()->pluck('id');
 
-        $this->messages->each(function (Message $message) use ($complaintedMsgIds) {
+        $this->messages->each(function (Message $message) use ($complaintedMsgIds): void {
             $message->is_not_solved_complaint = $complaintedMsgIds->contains($message->id);
         });
 

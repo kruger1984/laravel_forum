@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Events\StoreLikeEvent;
 use App\Http\Requests\Complaint\StoreRequest as ComplaintStoreRequest;
 use App\Http\Requests\Message\StoreRequest;
-use App\Http\Requests\Message\UpdateRequest;
 use App\Http\Resources\Message\MessageResource;
 use App\Jobs\ProcessMessageJob;
 use App\Models\Message;
@@ -16,8 +15,6 @@ use App\Service\NotificationService;
 class MessageController extends Controller
 {
     /**
-     * @param  StoreRequest  $request
-     *
      * @return array<string, mixed>
      */
     public function store(StoreRequest $request)
@@ -45,9 +42,6 @@ class MessageController extends Controller
     }
 
     /**
-     * @param  ComplaintStoreRequest  $request
-     * @param  Message  $message
-     *
      * @return array<string, mixed>
      */
     public function storeComplaint(ComplaintStoreRequest $request, Message $message): array

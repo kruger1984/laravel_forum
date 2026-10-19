@@ -45,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return Collection<int, string>
      */
     public static function getCleanedUserId(array $data): Collection

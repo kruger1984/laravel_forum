@@ -88,8 +88,6 @@ class SectionController extends Controller
     }
 
     /**
-     * @param  Section  $section
-     *
      * @return array<string, mixed>
      */
     public function branchIndex(Section $section): array
@@ -98,9 +96,6 @@ class SectionController extends Controller
     }
 
     /**
-     * @param  Section  $section
-     * @param  Branch  $branch
-     *
      * @return array<string, mixed>
      */
     public function branchIndexExcept(Section $section, Branch $branch): array

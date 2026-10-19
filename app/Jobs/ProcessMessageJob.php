@@ -27,11 +27,10 @@ class ProcessMessageJob implements ShouldQueue
      * Create a new job instance.
      *
      * @param  array<string, mixed>  $data
-     * @param  Message  $message
      */
     public function __construct(array $data, Message $message)
     {
-        $this->data    = $data;
+        $this->data = $data;
         $this->message = $message;
     }
 
@@ -55,7 +54,7 @@ class ProcessMessageJob implements ShouldQueue
         $this->message->answeredUsers()->attach($ids);
 
         $ids->each(function ($id): void {
-            NotificationService::store($this->message,(int) $id, 'You have received a reply.');
+            NotificationService::store($this->message, (int) $id, 'You have received a reply.');
         });
     }
 }
