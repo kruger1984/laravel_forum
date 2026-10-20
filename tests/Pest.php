@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -30,7 +32,11 @@ pest()->extend(TestCase::class)
 | to assert different things. Of course, you may extend the Expectation API at any time.
 |
 */
-
+// if (! expect()->has('toBeOne')) {
+//    expect()->extend('toBeOne', function () {
+//        return $this->toBe(1);
+//    });
+// }
 /*
 |--------------------------------------------------------------------------
 | Functions
@@ -42,7 +48,19 @@ pest()->extend(TestCase::class)
 |
 */
 
-function something()
+function userAsEditor(): User
 {
-    // ..
+    $editorRole = Role::factory()->editor()->create();
+    $user = User::factory()->create();
+    $user->roles()->attach($editorRole);
+
+    return $user;
+}
+function userAsAdmin(): User
+{
+    $adminRole = Role::factory()->admin()->create();
+    $user = User::factory()->create();
+    $user->roles()->attach($adminRole);
+
+    return $user;
 }

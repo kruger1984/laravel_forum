@@ -19,14 +19,8 @@ test('plain user cannot update branch', function (): void {
 test('global admin and editor can update branch', function (): void {
     $policy = new BranchPolicy;
     $branch = Branch::factory()->create();
-
-    $adminRole = Role::factory()->admin()->create();
-    $admin = User::factory()->create();
-    $admin->roles()->attach($adminRole);
-
-    $editorRole = Role::factory()->editor()->create();
-    $editor = User::factory()->create();
-    $editor->roles()->attach($editorRole);
+    $admin = userAsAdmin();
+    $editor = userAsEditor();
 
     expect($policy->update($admin, $branch))->toBeTrue()
         ->and($policy->update($editor, $branch))->toBeTrue();

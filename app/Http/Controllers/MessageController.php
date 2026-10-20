@@ -24,7 +24,7 @@ class MessageController extends Controller
 
         $message = Message::create($data);
 
-        ProcessMessageJob::dispatchSync($data, $message)->afterCommit();
+        ProcessMessageJob::dispatchSync($data, $message);
 
         $message->loadCount('likedUsers');
 

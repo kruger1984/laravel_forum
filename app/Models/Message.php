@@ -34,6 +34,14 @@ class Message extends Model
     }
 
     /**
+     * @return BelongsTo<Theme, $this>
+     */
+    public function theme(): BelongsTo
+    {
+        return $this->belongsTo(Theme::class, 'theme_id', 'id');
+    }
+
+    /**
      * @return BelongsToMany<User, $this>
      */
     public function likedUsers(): BelongsToMany

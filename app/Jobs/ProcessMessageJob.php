@@ -47,9 +47,9 @@ class ProcessMessageJob implements ShouldQueue
 
         Image::updateMessageId($imgIds, $this->message);
 
-        Image::cleanFromStorage();
+        Image::query()->cleanFromStorage($this->message->user_id);
 
-        Image::cleanFromTable();
+        Image::query()->cleanFromTable($this->message->user_id);
 
         $this->message->answeredUsers()->attach($ids);
 

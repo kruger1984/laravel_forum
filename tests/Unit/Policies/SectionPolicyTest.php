@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Role;
 use App\Models\Section;
 use App\Models\User;
 use App\Policies\SectionPolicy;
@@ -16,10 +15,7 @@ test('plain user cannot create section', function (): void {
 
 test('admin can create section', function (): void {
     $policy = new SectionPolicy;
-
-    $adminRole = Role::factory()->admin()->create();
-    $user = User::factory()->create();
-    $user->roles()->attach($adminRole);
+    $user = userAsAdmin();
 
     expect($policy->create($user))->toBeTrue();
 });
@@ -27,9 +23,7 @@ test('admin can create section', function (): void {
 test('editor can create section', function (): void {
     $policy = new SectionPolicy;
 
-    $editorRole = Role::factory()->editor()->create();
-    $user = User::factory()->create();
-    $user->roles()->attach($editorRole);
+    $user = userAsEditor();
 
     expect($policy->create($user))->toBeTrue();
 });
@@ -46,9 +40,7 @@ test('plain user cannot delete section', function (): void {
 test('admin can delete section', function (): void {
     $policy = new SectionPolicy;
 
-    $adminRole = Role::factory()->admin()->create();
-    $user = User::factory()->create();
-    $user->roles()->attach($adminRole);
+    $user = userAsAdmin();
     $section = Section::factory()->create();
 
     expect($policy->delete($user, $section))->toBeTrue();
@@ -57,9 +49,7 @@ test('admin can delete section', function (): void {
 test('editor can delete section', function (): void {
     $policy = new SectionPolicy;
 
-    $editorRole = Role::factory()->editor()->create();
-    $user = User::factory()->create();
-    $user->roles()->attach($editorRole);
+    $user = userAsEditor();
     $section = Section::factory()->create();
 
     expect($policy->delete($user, $section))->toBeTrue();

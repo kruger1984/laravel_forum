@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ImageFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +15,9 @@ use Log;
 
 class Image extends Model
 {
+    /** @use HasFactory<ImageFactory> */
+    use HasFactory;
+
     protected $guarded = [];
 
     public function getUrlAttribute(): string|UrlGenerator
@@ -23,9 +28,9 @@ class Image extends Model
     /**
      * @param  Builder<self>  $builder
      */
-    public function scopeCleanFromStorage(Builder $builder): void
+    public function scopeCleanFromStorage(Builder $builder, int $userId): void
     {
-        $paths = $builder->where('user_id', auth()->id())
+        $paths = $builder->where('user_id', $userId)
             ->whereNull('message_id')
             ->pluck('path');
 
@@ -39,10 +44,11 @@ class Image extends Model
     /**
      * @param  Builder<self>  $builder
      */
-    public function scopeCleanFromTable(Builder $builder): void
+    public function scopeCleanFromTable(Builder $builder, int $userId): void
     {
-        $builder->where('user_id', auth()->id())
-            ->whereNull('message_id')->delete();
+        $builder->where('user_id', $userId)
+            ->whereNull('message_id')
+            ->delete();
     }
 
     /**

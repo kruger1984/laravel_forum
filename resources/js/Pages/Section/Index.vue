@@ -9,6 +9,7 @@
             <Link :href="route('branches.create')" class="block w-1/6 px-2 py-1 bg-white border border-gray-300 rounded-lg text-center">+ Branch</Link>
             </template>
         </div>
+
         <div v-if="sections">
             <div v-for="section in sections" class="mb-8">
                 <div v-if="section.branches.length">
