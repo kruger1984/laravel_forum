@@ -54,7 +54,7 @@ class ProcessMessageJob implements ShouldQueue
         $this->message->answeredUsers()->attach($ids);
 
         $ids->each(function ($id): void {
-            NotificationService::store($this->message, (int) $id, 'You have received a reply.');
+            NotificationService::store($this->message, 'You have received a reply.', (int) $id);
         });
     }
 }

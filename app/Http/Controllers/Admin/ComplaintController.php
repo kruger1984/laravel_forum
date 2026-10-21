@@ -33,7 +33,7 @@ class ComplaintController extends Controller
         $title = $complaint->is_solved ? 'Your complaint is still under review' : 'Your complaint has been reviewed';
 
         if ($complaint->message instanceof Message) {
-            NotificationService::store($complaint->message, $complaint->user_id, $title);
+            NotificationService::store($complaint->message, $title, $complaint->user_id);
         }
 
         return ComplaintResource::make($complaint)->resolve();

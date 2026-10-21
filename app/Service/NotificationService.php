@@ -10,7 +10,7 @@ use App\Models\Notification;
 
 final class NotificationService
 {
-    public static function store(Message $message, ?int $id, string $title): void
+    public static function store(Message $message, string $title, ?int $id = null): void
     {
         $id = $id ?? $message->user_id;
 

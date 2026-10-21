@@ -35,7 +35,7 @@ class MessageController extends Controller
     {
         $res = $message->likedUsers()->toggle(auth()->id());
         if ($res['attached']) {
-            NotificationService::store($message, null, 'You have liked');
+            NotificationService::store($message, 'You have liked');
         }
         broadcast(new StoreLikeEvent($message))->toOthers();
 
@@ -49,7 +49,7 @@ class MessageController extends Controller
         $data = $request->validated();
         $message->complaintedUsers()->attach(auth()->id(), $data);
 
-        NotificationService::store($message, null, 'You have been complained about');
+        NotificationService::store($message, 'You have been complained about');
 
         $message->is_not_solved_complaint = true;
 
