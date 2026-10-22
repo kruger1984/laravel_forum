@@ -45,7 +45,15 @@ class SectionPolicy
      */
     public function update(User $user, Section $section): bool
     {
-        return false;
+        $roles = $user->roles->pluck('code');
+
+        $authRoles = collect([
+            'editor',
+            'editor'.','.$section->id,
+            'admin',
+        ]);
+
+        return $roles->intersect($authRoles)->count() > 0;
     }
 
     /**

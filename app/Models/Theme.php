@@ -7,6 +7,7 @@ namespace App\Models;
 use Database\Factories\ThemeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,5 +27,13 @@ class Theme extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class, 'theme_id', 'id');
+    }
+
+    /**
+     * @return BelongsTo<Branch, $this>
+     */
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 }

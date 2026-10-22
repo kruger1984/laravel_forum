@@ -52,7 +52,7 @@ test('admin can create section', function (): void {
 });
 
 test('authenticated user can update and delete section', function (): void {
-    $user = User::factory()->create();
+    $user = userAsEditor();
     $section = Section::factory()->create();
 
     $this->actingAs($user)
