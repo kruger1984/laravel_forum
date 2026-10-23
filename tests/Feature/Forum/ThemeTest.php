@@ -59,7 +59,3 @@ test('user can soft delete a theme', function (): void {
 
     $response->assertRedirect(route('branches.show', $branch->id));
 });
-
-// - [ ] `test('user can create a theme')`
-// - [ ] `test('user can update a theme')`
-// - [ ] `test('user can soft delete a theme')`

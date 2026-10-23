@@ -23,7 +23,7 @@ class NotificationFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'user_id' => User::factory(),
-            'url' => $this->faker,
+            'url' => $this->faker->url(),
         ];
     }
 

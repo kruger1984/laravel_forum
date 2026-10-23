@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/users/personal', [UserController::class, 'personal'])->name('users.personal');
     Route::patch('/users/personal', [UserController::class, 'update']);
 
-    Route::post('images', [ImageController::class, 'store']);
+    Route::post('images', [ImageController::class, 'store'])->name('images.store');
 
     Route::patch('/notifications/update_collection', [NotificationController::class, 'updateCollection']);
 

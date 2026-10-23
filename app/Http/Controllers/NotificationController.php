@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Notification\UpdateCollectionRequest;
-use App\Models\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class NotificationController extends Controller
@@ -14,11 +13,14 @@ class NotificationController extends Controller
     {
         $data = $request->validated();
 
-        Notification::whereIn('id', $data['ids'])->update([
-            'is_read' => true,
+        auth()->user()->notifications()
+            ->whereIn('id', $data['ids'])
+            ->update([
+                'is_read' => true,
+            ]);
+
+        return response()->json([
+            'count' => auth()->user()->notifications()->where('is_read', false)->count(),
         ]);
-
-        return response()->json(['count' => auth()->user()->notifications()->count()]);
-
     }
 }
